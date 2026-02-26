@@ -5,28 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Genshin TeamBuilder | Abyss Overdrive</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-    
-    body { 
-      margin: 0; padding: 0;
-      height: 100vh; width: 100vw;
-      overflow: hidden; 
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: 
-        radial-gradient(circle at center, rgba(26, 26, 58, 0.65) 0%, rgba(10, 10, 25, 0.98) 100%),
-        url('../../public/assets/img/fondos/admin_menu.png') center 0% / cover no-repeat fixed;
-      background-color: #0a0a1a; 
-    }
-
-    .title-gradient {
-      background: linear-gradient(to bottom, #ffffff 60%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
-  </style>
+  <link rel="stylesheet" href="../../public/assets/css/menu_principal.css">
 </head>
 <body class="text-white flex flex-col">
 
