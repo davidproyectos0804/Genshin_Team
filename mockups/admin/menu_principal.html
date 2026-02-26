@@ -13,115 +13,38 @@
       height: 100vh; width: 100vw;
       overflow: hidden; 
       font-family: 'Plus Jakarta Sans', sans-serif;
+      /* Mantenemos tu fondo personalizado */
       background: 
         radial-gradient(circle at center, rgba(26, 26, 58, 0.65) 0%, rgba(10, 10, 25, 0.98) 100%),
         url('a.png') center 0% / cover no-repeat fixed;
       background-color: #0a0a1a; 
     }
 
-    /* --- NAV AJUSTADO --- */
-    .nav-overdrive {
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-      position: relative;
-    }
-
-    /* LA BARRA LILA QUE SE MUEVE (SCANNER) */
-    .nav-overdrive::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #818cf8, #c084fc, transparent);
-      animation: scan 3s linear infinite;
-    }
-
-    @keyframes scan {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .nav-center {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .logo-reactor {
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
-    }
-    .logo-reactor::before {
-      content: '';
-      position: absolute;
-      inset: -50%;
-      background: conic-gradient(from 0deg, transparent, rgba(168, 85, 247, 0.6), transparent);
-      animation: rotate 3s linear infinite;
-    }
-    @keyframes rotate { 100% { transform: rotate(360deg); } }
-
-    .nav-link {
-      position: relative;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      letter-spacing: 0.2em;
-    }
-    .nav-link:hover {
-      color: #fff;
-      text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
-    }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: #6366f1;
-      transition: width 0.3s ease;
-    }
-    .nav-link:hover::after { width: 100%; }
-
+    /* Estilo del título con la corrección para que no salga el error amarillo */
     .title-gradient {
       background: linear-gradient(to bottom, #ffffff 60%, #94a3b8 100%);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    /* Animación suave para que el contenido no aparezca de golpe mientras cargan los reusables */
+    .fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body class="text-white flex flex-col">
 
-  <nav class="h-[10vh] w-full flex items-center justify-between px-12 nav-overdrive z-50">
-    
-    <div class="flex items-center gap-3">
-      <div class="h-9 w-9 bg-slate-900 rounded flex items-center justify-center logo-reactor text-sm">
-        <span class="relative z-10 font-black italic">G</span>
-      </div>
-      <span class="text-lg font-black tracking-tighter uppercase italic">
-        Genshin <span class="text-indigo-400">TeamBuilder</span>
-      </span>
-    </div>
-    
-    <div class="nav-center hidden lg:flex gap-14 font-black uppercase">
-      <a href="#" class="nav-link text-indigo-400">Inicio</a>
-      <a href="#" class="nav-link text-slate-400">Personajes</a>
-      <a href="#" class="nav-link text-slate-400">Banners</a>
-    </div>
+  <div id="nav-placeholder"></div>
 
-    <div class="flex items-center">
-      <div class="flex items-center gap-3 px-4 py-1.5 bg-indigo-500/10 border border-indigo-500/30 rounded-md">
-        <div class="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse shadow-[0_0_8px_#6366f1]"></div>
-        <span class="text-[9px] font-black tracking-[3px] text-indigo-300 uppercase">Panel de Control</span>
-      </div>
-    </div>
-  </nav>
-
-  <main class="flex-1 flex flex-col items-center justify-center px-6 text-center z-10">
+  <main class="flex-1 flex flex-col items-center justify-center px-6 text-center z-10 fade-in">
+    
     <div class="mb-4 px-3 py-1 border border-indigo-500/20 bg-indigo-500/5 rounded-full text-indigo-400/80 text-[8px] font-black tracking-[0.4em] uppercase">
       Consola de Administración
     </div>
@@ -138,7 +61,7 @@
     </p>
 
     <div class="flex gap-8 w-full max-w-4xl">
-      <a href="#" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-900/10">
+      <a href="personajes.html" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-900/10">
         <h3 class="text-3xl font-black mb-2 uppercase group-hover:text-indigo-400">Personajes</h3>
         <p class="text-slate-500 text-[10px] font-bold tracking-[2px] uppercase">Base de Datos • Filtros</p>
       </a>
@@ -150,10 +73,28 @@
     </div>
   </main>
 
-  <footer class="h-[7vh] w-full flex items-center justify-between px-12 bg-black/80 border-t border-white/5 z-50">
-    <span class="text-[8px] text-slate-500 font-bold tracking-[3px] uppercase italic opacity-40">System_Core_v2.6</span>
-    <span class="text-[8px] text-slate-600 font-bold tracking-[2px] uppercase opacity-40">© 2026 Genshin TeamBuilder Administration</span>
-  </footer>
+  <div id="footer-placeholder"></div>
+
+  <script>
+    // Función para cargar los archivos externos
+    async function loadComponent(id, path) {
+      try {
+        const response = await fetch(path);
+        if (response.ok) {
+          const content = await response.text();
+          document.getElementById(id).innerHTML = content;
+        } else {
+          console.error('Error al cargar:', path);
+        }
+      } catch (err) {
+        console.error('Fallo en el fetch:', err);
+      }
+    }
+
+    // Ejecutamos la carga
+    loadComponent('nav-placeholder', '../../reusables/nav.html');
+    loadComponent('footer-placeholder', '../../reusables/fotter.html');
+  </script>
 
 </body>
 </html>

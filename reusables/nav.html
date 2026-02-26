@@ -1,0 +1,83 @@
+<style>
+  /* Estilos base del Nav */
+  .nav-overdrive {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+    position: relative;
+  }
+
+  /* La barra láser lila */
+  .nav-overdrive::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, #818cf8, #c084fc, transparent);
+    animation: scan 3s linear infinite;
+  }
+
+  @keyframes scan {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* --- EL REACTOR QUE GIRA --- */
+  .logo-reactor {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+  }
+
+  .logo-reactor::before {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background: conic-gradient(from 0deg, transparent, rgba(168, 85, 247, 0.6), transparent);
+    animation: rotate-reactor 3s linear infinite;
+  }
+
+  @keyframes rotate-reactor {
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Enlaces y centrado */
+  .nav-center {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  }
+
+  .nav-link {
+    position: relative; font-size: 15px; transition: all 0.3s ease; letter-spacing: 0.2em;
+  }
+  .nav-link:hover { color: #fff; text-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
+  
+  .nav-link::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+    background: #6366f1; transition: width 0.3s ease;
+  }
+  .nav-link:hover::after { width: 100%; }
+</style>
+
+<nav class="h-[10vh] w-full flex items-center justify-between px-12 nav-overdrive z-50">
+  
+  <div class="flex items-center gap-3">
+    <div class="h-9 w-9 bg-slate-900 rounded flex items-center justify-center logo-reactor text-sm">
+      <span class="relative z-10 font-black italic">G</span>
+    </div>
+    <span class="text-lg font-black tracking-tighter uppercase italic">
+      Genshin <span class="text-indigo-400">TeamBuilder</span>
+    </span>
+  </div>
+  
+  <div class="nav-center hidden lg:flex gap-14 font-black uppercase">
+    <a href="menu_principal.html" class="nav-link text-indigo-400">Inicio</a>
+    <a href="personajes.html" class="nav-link text-slate-400">Personajes</a>
+    <a href="#" class="nav-link text-slate-400">Banners</a>
+  </div>
+
+  <div class="flex items-center">
+    <div class="flex items-center gap-3 px-4 py-1.5 bg-indigo-500/10 border border-indigo-500/30 rounded-md">
+      <div class="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse shadow-[0_0_8px_#6366f1]"></div>
+      <span class="text-[9px] font-black tracking-[3px] text-indigo-300 uppercase">Panel de Control</span>
+    </div>
+  </div>
+</nav>
