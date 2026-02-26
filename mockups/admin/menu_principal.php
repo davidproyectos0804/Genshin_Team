@@ -13,14 +13,12 @@
       height: 100vh; width: 100vw;
       overflow: hidden; 
       font-family: 'Plus Jakarta Sans', sans-serif;
-      /* Mantenemos tu fondo personalizado */
       background: 
         radial-gradient(circle at center, rgba(26, 26, 58, 0.65) 0%, rgba(10, 10, 25, 0.98) 100%),
-        url('a.png') center 0% / cover no-repeat fixed;
+        url('../../public/assets/img/fondos/admin_menu.png') center 0% / cover no-repeat fixed;
       background-color: #0a0a1a; 
     }
 
-    /* Estilo del título con la corrección para que no salga el error amarillo */
     .title-gradient {
       background: linear-gradient(to bottom, #ffffff 60%, #94a3b8 100%);
       -webkit-background-clip: text;
@@ -28,23 +26,13 @@
       -webkit-text-fill-color: transparent;
       color: transparent;
     }
-
-    /* Animación suave para que el contenido no aparezca de golpe mientras cargan los reusables */
-    .fade-in {
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body class="text-white flex flex-col">
 
-  <div id="nav-placeholder"></div>
+  <?php include '../../reusables/nav.html'; ?>
 
-  <main class="flex-1 flex flex-col items-center justify-center px-6 text-center z-10 fade-in">
-    
+  <main class="flex-1 flex flex-col items-center justify-center px-6 text-center z-10">
     <div class="mb-4 px-3 py-1 border border-indigo-500/20 bg-indigo-500/5 rounded-full text-indigo-400/80 text-[8px] font-black tracking-[0.4em] uppercase">
       Consola de Administración
     </div>
@@ -61,7 +49,7 @@
     </p>
 
     <div class="flex gap-8 w-full max-w-4xl">
-      <a href="personajes.html" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-900/10">
+      <a href="personajes.php" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-900/10">
         <h3 class="text-3xl font-black mb-2 uppercase group-hover:text-indigo-400">Personajes</h3>
         <p class="text-slate-500 text-[10px] font-bold tracking-[2px] uppercase">Base de Datos • Filtros</p>
       </a>
@@ -73,28 +61,7 @@
     </div>
   </main>
 
-  <div id="footer-placeholder"></div>
-
-  <script>
-    // Función para cargar los archivos externos
-    async function loadComponent(id, path) {
-      try {
-        const response = await fetch(path);
-        if (response.ok) {
-          const content = await response.text();
-          document.getElementById(id).innerHTML = content;
-        } else {
-          console.error('Error al cargar:', path);
-        }
-      } catch (err) {
-        console.error('Fallo en el fetch:', err);
-      }
-    }
-
-    // Ejecutamos la carga
-    loadComponent('nav-placeholder', '../../reusables/nav.html');
-    loadComponent('footer-placeholder', '../../reusables/fotter.html');
-  </script>
+  <?php include '../../reusables/fotter.html'; ?>
 
 </body>
 </html>
