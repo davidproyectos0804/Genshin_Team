@@ -8,38 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
   <link rel="stylesheet" href="../../public/assets/css/personajes_principal.css">
-  
-  <style>
-    [x-cloak] { display: none !important; }
-
-    /* DISEÑO PREMIUM SIN LAG */
-    .modal-glass {
-      background: #0f101d; /* Fondo oscuro sólido para evitar lag */
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
-    }
-
-    .input-cyber {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white;
-      transition: border-color 0.2s;
-    }
-
-    .input-cyber:focus {
-      border-color: #6366f1;
-      outline: none;
-    }
-
-    /* Fondo oscuro de la pantalla al abrir modal */
-    .modal-overlay {
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .glow-icon {
-      box-shadow: 0 0 10px currentColor;
-    }
-  </style>
 </head>
 <body class="text-white bg-[#0a0a1a]" x-data="{ mAdd: false, mEdit: false, mDel: false, name: '' }">
 

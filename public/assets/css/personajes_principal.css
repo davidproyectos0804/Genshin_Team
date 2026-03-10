@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
+/* =========================
+   BASE
+========================= */
+
 html, body {
   width: 100%;
   margin: 0;
@@ -18,6 +22,20 @@ body {
   background-color: #0a0a1a; 
 }
 
+
+/* =========================
+   ALPINEJS
+========================= */
+
+[x-cloak] {
+  display: none !important;
+}
+
+
+/* =========================
+   TARJETAS PERSONAJES
+========================= */
+
 .glass-card {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
@@ -31,6 +49,44 @@ body {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
+
+/* =========================
+   MODALES
+========================= */
+
+.modal-glass {
+  background: #0f101d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+}
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+
+/* =========================
+   INPUTS CYBER
+========================= */
+
+.input-cyber {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: border-color 0.2s;
+}
+
+.input-cyber:focus {
+  border-color: #6366f1;
+  outline: none;
+}
+
+
+/* =========================
+   EFECTOS VISUALES
+========================= */
+
 .glow-icon {
+  box-shadow: 0 0 10px currentColor;
   filter: drop-shadow(0 0 5px currentColor);
 }
