@@ -31,26 +31,27 @@
     </div>
 
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-6 pb-20">
-      
+      <!--Aqui va el for para los personajes pa-->
       <div class="glass-card rounded-lg overflow-hidden flex flex-col group h-fit">
         <div class="relative aspect-[3/4] bg-slate-900/60 overflow-hidden">
+              <img src="/public/assets/img/personajes/flins.webp" class="w-full h-full object-cover object-top">
           <div class="absolute inset-0 flex items-center justify-center opacity-10">
              <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
           </div>
         </div>
 
         <div class="p-3 bg-black/30 flex flex-col">
-          <p class="text-center text-[10px] font-black uppercase tracking-wider mb-3 text-slate-200">Nombre del PJ</p>
+          <p class="text-center text-[10px] font-black uppercase tracking-wider mb-3 text-slate-200">Flins</p>
           
           <div class="flex justify-around items-center gap-1 mb-3">
             <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10 text-orange-500">
-               <div class="w-3 h-3 bg-current rounded-full glow-icon"></div>
+               <img src="/public/assets/img/elementos/electro.webp" class="w-4">
             </div>
             <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10 text-indigo-500">
-               <div class="w-3 h-3 bg-current rounded-full glow-icon"></div>
+              <img src="/public/assets/img/armas/lanza.webp" class="w-full h-full object-cover">
             </div>
             <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10 text-slate-400">
-               <div class="w-3 h-3 bg-current rounded-full glow-icon"></div>
+               <img src="/public/assets/img/stats/critdmg.webp" class="w-4">
             </div>
           </div>
 
@@ -64,7 +65,7 @@
           </div>
         </div>
       </div>
-
+      <!--aqui termina el for-->
     </div>
   </main>
 
