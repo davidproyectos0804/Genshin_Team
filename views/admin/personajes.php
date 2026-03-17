@@ -11,7 +11,7 @@
 </head>
 <body class="text-white bg-[#0a0a1a]" x-data="{ mAdd: false, mEdit: false, mDel: false, name: '' }">
 
-  <?php include '../../reusables/nav.html'; ?>
+  <?php include 'reusables/nav.html'; ?>
 
   <main class="w-full flex-1 px-6 md:px-12 py-10">
     
@@ -31,41 +31,39 @@
     </div>
 
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-6 pb-20">
-      <!--Aqui va el for para los personajes pa-->
-      <div class="glass-card rounded-lg overflow-hidden flex flex-col group h-fit">
-        <div class="relative aspect-[3/4] bg-slate-900/60 overflow-hidden">
-              <img src="/public/assets/img/personajes/flins.webp" class="w-full h-full object-cover object-top">
-          <div class="absolute inset-0 flex items-center justify-center opacity-10">
-             <svg class="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-          </div>
+  <?php foreach ($dataToView["data"] as $p): ?>
+
+  <div class="glass-card rounded-lg overflow-hidden flex flex-col group h-fit">
+    <div class="relative aspect-[3/4] bg-slate-900/60 overflow-hidden">
+      <img src="<?= $p['foto'] ?>" class="w-full h-full object-cover object-top">
+    </div>
+
+    <div class="p-3 bg-black/30 flex flex-col">
+      
+      <p class="text-center text-[10px] font-black uppercase tracking-wider mb-3 text-slate-200">
+        <?= $p['nombre'] ?>
+      </p>
+
+      <div class="flex justify-around items-center gap-1 mb-3">
+        
+        <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
+          <img src="<?= $p['foto_elemento'] ?>" class="w-4">
         </div>
 
-        <div class="p-3 bg-black/30 flex flex-col">
-          <p class="text-center text-[10px] font-black uppercase tracking-wider mb-3 text-slate-200">Flins</p>
-          
-          <div class="flex justify-around items-center gap-1 mb-3">
-            <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10 text-orange-500">
-               <img src="/public/assets/img/elementos/electro.webp" class="w-4">
-            </div>
-            <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10 text-indigo-500">
-              <img src="/public/assets/img/armas/lanza.webp" class="w-full h-full object-cover">
-            </div>
-            <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10 text-slate-400">
-               <img src="/public/assets/img/stats/critdmg.webp" class="w-4">
-            </div>
-          </div>
-
-          <div class="flex border-t border-white/10 pt-2 justify-center gap-5">
-            <button @click="mEdit = true" class="text-slate-500 hover:text-indigo-400 transition-all transform hover:scale-110">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            </button>
-            <button @click="mDel = true; name = 'Nombre del PJ'" class="text-slate-500 hover:text-red-500 transition-all transform hover:scale-110">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-            </button>
-          </div>
+        <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
+          <img src="<?= $p['foto_arma'] ?>" class="w-full h-full object-cover">
         </div>
+
+        <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
+          <img src="<?= $p['foto_estadistica'] ?>" class="w-4">
+        </div>
+
       </div>
-      <!--aqui termina el for-->
+
+    </div>
+  </div>
+
+  <?php endforeach; ?>
     </div>
   </main>
 
@@ -155,7 +153,7 @@
     </div>
   </div>
 
-  <?php include '../../reusables/fotter.html'; ?>
+  <?php include 'reusables/fotter.html'; ?>
 
 </body>
 </html>
