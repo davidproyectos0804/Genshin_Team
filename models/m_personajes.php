@@ -61,4 +61,7 @@ class M_personajes
 
     return $resultado;
 }
+public function mAnadirPersonaje(){
+    
+}
 }

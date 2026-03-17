@@ -28,7 +28,7 @@
     </p>
 
     <div class="flex gap-8 w-full max-w-4xl">
-      <<a href="index.php?controlador=personajes&accion=cMostrarPersonajes" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-900/10">
+      <a href="index.php?controlador=personajes&accion=cMostrarPersonajes" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-900/10">
         <h3 class="text-3xl font-black mb-2 uppercase group-hover:text-indigo-400">Personajes</h3>
         <p class="text-slate-500 text-[10px] font-bold tracking-[2px] uppercase">Base de Datos • Filtros</p>
       </a>
