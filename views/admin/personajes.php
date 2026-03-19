@@ -7,12 +7,17 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
+  <script src="../../public/assets/js/personajes.js" defer></script>
   <link rel="stylesheet" href="../../public/assets/css/personajes_principal.css">
 </head>
-<body class="text-white bg-[#0a0a1a]" x-data="{ mAdd: false, mEdit: false, mDel: false, name: '' }">
+
+
+<body class="text-white bg-[#0a0a1a]" 
+  x-data="{ mAdd: false, mEdit: false, mDel: false, mError: false, name: '', errorMsg: '' }"
+  @show-error.window="errorMsg = $event.detail.msg; mError = true">
 
   <?php include 'reusables/nav.html'; ?>
-
+  
   <main class="w-full flex-1 px-6 md:px-12 py-10">
     
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12 border-b border-white/10 pb-10">
@@ -33,31 +38,48 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-6 pb-20">
   <?php foreach ($dataToView["data"] as $p): ?>
 
-  <div class="glass-card rounded-lg overflow-hidden flex flex-col group h-fit">
-    <div class="relative aspect-[3/4] bg-slate-900/60 overflow-hidden">
-      <img src="<?= $p['foto'] ?>" class="w-full h-full object-cover object-top">
-    </div>
+    <div class="glass-card rounded-lg overflow-hidden flex flex-col group h-fit">
+      <div class="relative aspect-[3/4] bg-slate-900/60 overflow-hidden">
+    <img src="<?= $p['foto'] ?>" class="w-full h-full object-cover" style="object-position: center 10%;">
+  </div>
 
     <div class="p-3 bg-black/30 flex flex-col">
       
       <p class="text-center text-[10px] font-black uppercase tracking-wider mb-3 text-slate-200">
         <?= $p['nombre'] ?>
       </p>
-
+      
       <div class="flex justify-around items-center gap-1 mb-3">
-        
-        <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
-          <img src="<?= $p['foto_elemento'] ?>" class="w-4">
+        <!-- ELEMENTO -->
+        <div class="relative group/elem h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
+          <img src="<?= $p['foto_elemento'] ?>" class="w-6">
+          <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover/elem:opacity-100 transition-all pointer-events-none border border-white/10 z-10">
+            <?= $p['elemento'] ?>
+          </div>
         </div>
 
-        <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
+        <!-- ARMA -->
+        <div class="relative group/arma h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
           <img src="<?= $p['foto_arma'] ?>" class="w-full h-full object-cover">
+          <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover/arma:opacity-100 transition-all pointer-events-none border border-white/10 z-10">
+            <?= $p['arma'] ?>
+          </div>
         </div>
 
-        <div class="h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
-          <img src="<?= $p['foto_estadistica'] ?>" class="w-4">
+        <!-- REGION -->
+        <div class="relative group/region h-8 w-8 rounded-full bg-slate-800/80 flex items-center justify-center border border-white/10">
+          <img src="<?= $p['foto_region'] ?>" class="w-7">
+          <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover/region:opacity-100 transition-all pointer-events-none border border-white/10 z-10">
+            <?= $p['region'] ?>
+          </div>
         </div>
       </div>
+      <p class="text-center text-yellow-400 text-xs mb-3 tracking-widest">
+        <?= str_repeat('★', $p['rareza']) ?>
+      </p>
+      <p class="text-center text-[9px] text-slate-500 uppercase tracking-widest font-bold mb-3">
+        <?= $p['estadistica'] ?>
+      </p>
     <div class="flex border-t border-white/10 pt-2 justify-center gap-5">
             <button @click="mEdit = true" class="text-slate-500 hover:text-indigo-400 transition-all transform hover:scale-110">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -114,7 +136,6 @@
               <input 
                 name="nombre" 
                 type="text" 
-                required 
                 placeholder="Nombre del personaje"
                 class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold">
             </div>
@@ -122,7 +143,7 @@
             <!-- RAREZA -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Rareza</label>
-              <select name="rareza" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+              <select name="rareza" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
                 <option value="" disabled selected>Selecciona rareza</option>
                 <option value="4">4 Estrellas</option>
                 <option value="5">5 Estrellas</option>
@@ -132,7 +153,7 @@
             <!-- ARMA -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Arma</label>
-              <select name="arma" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+              <select name="arma" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
                 <option value="" disabled selected>Selecciona arma</option>
                 <option value="1">Espada</option>
                 <option value="2">Mandoble</option>
@@ -142,23 +163,34 @@
               </select>
             </div>
 
-            <!-- ASCENSION -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Ascensión</label>
-              <select name="ascension" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
-                <option value="" disabled selected>Selecciona estadística</option>
-                <option value="1">ATK%</option>
-                <option value="2">HP%</option>
-                <option value="3">DEF%</option>
-                <option value="4">Crit Rate</option>
-                <option value="5">Crit DMG</option>
-              </select>
+              <!-- ASCENSION -->
+                <select name="ascension" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+                  <option value="" disabled selected>Selecciona estadística</option>
+                  <option value="1">ATK%</option>
+                  <option value="2">HP%</option>
+                  <option value="3">DEF%</option>
+                  <option value="4">Crit Rate</option>
+                  <option value="5">Crit DMG</option>
+                  <option value="6">Recarga de Energía</option>
+                  <option value="7">Maestría Elemental</option>
+                  <option value="8">Bono de Curación</option>
+                  <option value="13">Bono Físico</option>
+                  <option value="14">Bono Pyro</option>
+                  <option value="15">Bono Hydro</option>
+                  <option value="16">Bono Electro</option>
+                  <option value="17">Bono Cryo</option>
+                  <option value="18">Bono Anemo</option>
+                  <option value="19">Bono Geo</option>
+                  <option value="20">Bono Dendro</option>
+                </select>
             </div>
 
             <!-- ELEMENTO -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Elemento</label>
-              <select name="elemento" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+              <select name="elemento" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
                 <option value="" disabled selected>Selecciona elemento</option>
                 <option value="1">Pyro</option>
                 <option value="2">Hydro</option>
@@ -169,7 +201,20 @@
                 <option value="7">Dendro</option>
               </select>
             </div>
-
+            <div class="col-span-2">
+              <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Región</label>
+              <select name="region" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+                <option value="" disabled selected>Selecciona región</option>
+                <option value="1">Mondstadt</option>
+                <option value="2">Liyue</option>
+                <option value="3">Inazuma</option>
+                <option value="4">Sumeru</option>
+                <option value="5">Fontaine</option>
+                <option value="6">Natlan</option>
+                <option value="7">Snezhnaya</option>
+                <option value="8">Nod-Krai</option>
+              </select>
+            </div>
           </div>
 
           <!-- BOTONES -->
@@ -200,10 +245,10 @@
           </div>
 
           <!-- INPUT FILE -->
-          <input type="file" name="foto" id="fotoInput" required class="hidden" accept="image/*">
+          <input type="file" name="foto" id="fotoInput"  class="hidden" accept="image/*">
 
           <!-- BOTON -->
-          <label for="fotoInput" class="px-8 py-2 bg-slate-800 text-slate-300 font-bold uppercase text-[10px] tracking-widest rounded-lg border border-white/5 cursor-pointer">
+          <label for="fotoInput" class="px-8 py   -2 bg-slate-800 text-slate-300 font-bold uppercase text-[10px] tracking-widest rounded-lg border border-white/5 cursor-pointer">
             Subir Foto
           </label>
 
@@ -220,42 +265,6 @@
 
   </div>
 </div>
-
-<script>
-// PREVIEW IMAGEN
-document.getElementById('fotoInput').addEventListener('change', function(event) {
-  const file = event.target.files[0];
-
-  if (file) {
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-      const img = document.getElementById('previewImg');
-      const text = document.getElementById('previewText');
-
-      img.src = e.target.result;
-      img.classList.remove('hidden');
-      text.style.display = 'none';
-    }
-
-    reader.readAsDataURL(file);
-  }
-});
-
-// LIMPIAR FORM COMPLETO
-function limpiarFormulario(idForm) {
-  const form = document.getElementById(idForm);
-  form.reset();
-
-  // reset preview
-  const img = document.getElementById('previewImg');
-  const text = document.getElementById('previewText');
-
-  img.src = "";
-  img.classList.add('hidden');
-  text.style.display = 'block';
-}
-</script>
 
   <div x-show="mEdit" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay">
     <div @click.away="mEdit = false" class="modal-glass max-w-4xl w-full p-10 rounded-2xl relative">
@@ -293,7 +302,28 @@ function limpiarFormulario(idForm) {
     </div>
   </div>
 
-  <?php include 'reusables/fotter.html'; ?>
+  <div x-show="mError" x-cloak class="fixed inset-0 z-[110] flex items-center justify-center p-4 modal-overlay">
+  <div @click.away="mError = false" class="modal-glass max-w-sm w-full p-8 rounded-xl text-center">
+    <div class="text-red-500 text-5xl mb-4">✕</div>
+    <h2 class="text-xl font-black uppercase italic mb-2 text-white">Error</h2>
+    <p class="text-slate-400 text-xs uppercase tracking-widest" x-text="errorMsg"></p>
+    <button @click="mError = false" 
+      class="w-full mt-6 py-3 bg-red-600 hover:bg-red-500 rounded font-black uppercase text-xs tracking-widest transition-all">
+      Cerrar
+    </button>
+  </div>
+</div>
+<?php if (isset($_SESSION['error'])): ?>
+<script>
+  window.addEventListener('load', () => {
+    window.dispatchEvent(new CustomEvent('show-error', {
+      detail: { msg: "<?= $_SESSION['error'] ?>" }
+    }));
+  });
+</script>
+<?php unset($_SESSION['error']); ?>
+<?php endif; ?>
 
+  <?php include 'reusables/fotter.html'; ?>
 </body>
 </html>

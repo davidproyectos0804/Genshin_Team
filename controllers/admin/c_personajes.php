@@ -22,27 +22,29 @@ public function cMostrarPersonajes()
 public function cAnadirPersonaje()
 {
     $this->vista = 'personajes';
-
     if (empty($_POST['nombre']) || empty($_POST['rareza']) || empty($_POST['arma']) || 
-        empty($_POST['elemento']) || empty($_POST['ascension']) || empty($_FILES['foto']['name'])) {
-        // modal de error
-        return;
+        empty($_POST['elemento']) || empty($_POST['ascension']) || empty($_POST['region']) ||
+        !isset($_FILES['foto']) || $_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
+        $_SESSION['error'] = "Rellena todos los campos correctamente.";
+        header("Location: ./index.php?controlador=personajes&accion=cMostrarPersonajes");
+        exit();
     }
 
-    $nombre = $_POST['nombre'];
-    $rareza = $_POST['rareza'];
-    $arma = $_POST['arma'];
-    $elemento = $_POST['elemento'];
+    $nombre    = $_POST['nombre'];
+    $rareza    = $_POST['rareza'];
+    $arma      = $_POST['arma'];
+    $elemento  = $_POST['elemento'];
     $ascension = $_POST['ascension'];
-    $foto = $_FILES['foto'];
+    $region    = $_POST['region'];
+    $foto      = $_FILES['foto'];
 
     $tipos = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
     if (!in_array($foto['type'], $tipos)) {
-        // modal de error
-        return;
+        $_SESSION['error'] = "Formato de imagen no permitido.";
+        header("Location: ./index.php?controlador=personajes&accion=cMostrarPersonajes");
+        exit();
     }
 
-    // Gestión de la imagen aquí en el controlador
     $directorio = "public/assets/img/personajes/";
     if (!is_dir($directorio)) {
         mkdir($directorio, 0777, true);
@@ -53,16 +55,18 @@ public function cAnadirPersonaje()
     $rutaFinal  = $directorio . $nombreFoto;
 
     if (!move_uploaded_file($foto['tmp_name'], $rutaFinal)) {
-        // modal de error
-        return;
-    }
-
-    $resultado = $this->objpersonajes->mAnadirPersonaje($nombre, $rareza, $arma, $elemento, $rutaFinal, $ascension);
-
-    if ($resultado) {
+        $_SESSION['error'] = "Error al subir la imagen.";
         header("Location: ./index.php?controlador=personajes&accion=cMostrarPersonajes");
         exit();
     }
-    // modal de error
+
+    $resultado = $this->objpersonajes->mAnadirPersonaje($nombre, $rareza, $arma, $elemento, $rutaFinal, $ascension, $region);
+
+    if (!$resultado) {
+        $_SESSION['error'] = "Error al guardar en la base de datos.";
+    }
+
+    header("Location: ./index.php?controlador=personajes&accion=cMostrarPersonajes");
+    exit();
 }
 }

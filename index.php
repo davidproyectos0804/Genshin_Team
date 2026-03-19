@@ -1,5 +1,5 @@
 <?php
-ob_start();
+session_start();
 require_once 'config/config_rutas.php';
 
 $controladorNombre = $_GET["controlador"] ?? DEFAULT_CONTROLADOR;
