@@ -61,7 +61,19 @@ class M_personajes
 
     return $resultado;
 }
-public function mAnadirPersonaje(){
-    
+public function mAnadirPersonaje($nombre, $rareza, $idArma, $idElemento, $foto, $idEstadistica)
+{
+    $SQL = "INSERT INTO Personajes (nombre, rareza, idArma, idElemento, idEstadistica, foto) 
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    $stmt = $this->conexion->prepare($SQL);
+    $stmt->bind_param("siiiis", $nombre, $rareza, $idArma, $idElemento, $idEstadistica, $foto);
+
+    try {
+        $stmt->execute();
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        return false;
+    }
 }
 }

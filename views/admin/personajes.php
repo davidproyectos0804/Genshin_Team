@@ -83,45 +83,179 @@
     </div>
   </div>
 
-  <div x-show="mAdd" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay">
-    <div @click.away="mAdd = false" class="modal-glass max-w-4xl w-full p-10 rounded-2xl relative">
-      <h2 class="text-4xl font-black uppercase italic mb-10 tracking-tighter text-white">Nuevo <span class="text-indigo-400">Personaje</span></h2>
+<div 
+  x-show="mAdd" 
+  x-cloak 
+  @keydown.escape.window="mAdd = false"
+  class="fixed inset-0 z-[100] flex items-center justify-center p-4"
+>
+
+  <!-- OVERLAY -->
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="mAdd = false"></div>
+
+  <!-- MODAL -->
+  <div class="relative modal-glass max-w-4xl w-full p-10 rounded-2xl">
+
+    <form id="formInsert" action="index.php?controlador=personajes&accion=cAnadirPersonaje" method="POST" enctype="multipart/form-data">
+
+      <h2 class="text-4xl font-black uppercase italic mb-10 tracking-tighter text-white">
+        Nuevo <span class="text-indigo-400">Personaje</span>
+      </h2>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <!-- IZQUIERDA -->
         <div class="space-y-6">
           <div class="grid grid-cols-2 gap-4 text-left">
+
+            <!-- NOMBRE -->
             <div class="col-span-2">
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Nombre</label>
-              <input type="text" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold" placeholder="Nombre del PJ">
+              <input 
+                name="nombre" 
+                type="text" 
+                required 
+                placeholder="Nombre del personaje"
+                class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold">
             </div>
+
+            <!-- RAREZA -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Rareza</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option>5 Estrellas</option></select>
+              <select name="rareza" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+                <option value="" disabled selected>Selecciona rareza</option>
+                <option value="4">4 Estrellas</option>
+                <option value="5">5 Estrellas</option>
+              </select>
             </div>
+
+            <!-- ARMA -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Arma</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option>Sword</option></select>
+              <select name="arma" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+                <option value="" disabled selected>Selecciona arma</option>
+                <option value="1">Espada</option>
+                <option value="2">Mandoble</option>
+                <option value="3">Lanza</option>
+                <option value="4">Arco</option>
+                <option value="5">Catalizador</option>
+              </select>
             </div>
+
+            <!-- ASCENSION -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Ascensión</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option>ATK%</option></select>
+              <select name="ascension" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+                <option value="" disabled selected>Selecciona estadística</option>
+                <option value="1">ATK%</option>
+                <option value="2">HP%</option>
+                <option value="3">DEF%</option>
+                <option value="4">Crit Rate</option>
+                <option value="5">Crit DMG</option>
+              </select>
             </div>
+
+            <!-- ELEMENTO -->
             <div>
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Elemento</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option>Pyro</option></select>
+              <select name="elemento" required class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white">
+                <option value="" disabled selected>Selecciona elemento</option>
+                <option value="1">Pyro</option>
+                <option value="2">Hydro</option>
+                <option value="3">Electro</option>
+                <option value="4">Cryo</option>
+                <option value="5">Anemo</option>
+                <option value="6">Geo</option>
+                <option value="7">Dendro</option>
+              </select>
             </div>
+
           </div>
-          <button class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 font-black uppercase text-xs rounded mt-4 tracking-widest transition-all">Añadir Registro</button>
+
+          <!-- BOTONES -->
+          <div class="flex gap-4 mt-4">
+            
+            <!-- SUBMIT -->
+            <button type="submit" 
+              class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 font-black uppercase text-xs rounded tracking-widest transition-all">
+              Añadir
+            </button>
+
+            <!-- LIMPIAR -->
+            <button type="button" onclick="limpiarFormulario('formInsert')" 
+              class="w-full py-4 bg-red-600 hover:bg-red-500 font-black uppercase text-xs rounded tracking-widest transition-all">
+              Limpiar
+            </button>
+
+          </div>
         </div>
+
+        <!-- DERECHA -->
         <div class="flex flex-col items-center justify-center border-l border-white/5 pl-10">
-          <div class="w-40 aspect-[3/4] bg-slate-900/60 rounded-lg border border-white/10 mb-6 flex items-center justify-center">
-             <span class="text-[10px] text-white/20 uppercase font-black">Previsualización</span>
+
+          <!-- PREVIEW -->
+          <div class="w-40 aspect-[3/4] bg-slate-900/60 rounded-lg border border-white/10 mb-6 flex items-center justify-center overflow-hidden">
+            <span id="previewText" class="text-[10px] text-white/20 uppercase font-black">Previsualización</span>
+            <img id="previewImg" class="hidden w-full h-full object-cover">
           </div>
-          <button class="px-8 py-2 bg-slate-800 text-slate-300 font-bold uppercase text-[10px] tracking-widest rounded-lg border border-white/5 transition-all">Subir Foto</button>
+
+          <!-- INPUT FILE -->
+          <input type="file" name="foto" id="fotoInput" required class="hidden" accept="image/*">
+
+          <!-- BOTON -->
+          <label for="fotoInput" class="px-8 py-2 bg-slate-800 text-slate-300 font-bold uppercase text-[10px] tracking-widest rounded-lg border border-white/5 cursor-pointer">
+            Subir Foto
+          </label>
+
         </div>
+
       </div>
-      <button @click="mAdd = false" class="absolute top-6 right-6 text-slate-500 hover:text-white text-3xl font-light">&times;</button>
-    </div>
+
+    </form>
+
+    <!-- CERRAR -->
+    <button @click="mAdd = false" class="absolute top-6 right-6 text-slate-500 hover:text-white text-3xl">
+      &times;
+    </button>
+
   </div>
+</div>
+
+<script>
+// PREVIEW IMAGEN
+document.getElementById('fotoInput').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      const img = document.getElementById('previewImg');
+      const text = document.getElementById('previewText');
+
+      img.src = e.target.result;
+      img.classList.remove('hidden');
+      text.style.display = 'none';
+    }
+
+    reader.readAsDataURL(file);
+  }
+});
+
+// LIMPIAR FORM COMPLETO
+function limpiarFormulario(idForm) {
+  const form = document.getElementById(idForm);
+  form.reset();
+
+  // reset preview
+  const img = document.getElementById('previewImg');
+  const text = document.getElementById('previewText');
+
+  img.src = "";
+  img.classList.add('hidden');
+  text.style.display = 'block';
+}
+</script>
 
   <div x-show="mEdit" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay">
     <div @click.away="mEdit = false" class="modal-glass max-w-4xl w-full p-10 rounded-2xl relative">
