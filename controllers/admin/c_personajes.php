@@ -69,4 +69,20 @@ public function cAnadirPersonaje()
     header("Location: ./index.php?controlador=personajes&accion=cMostrarPersonajes");
     exit();
 }
+public function cBorrarPersonaje(){
+  $this->vista='personajes';
+  if(empty($_POST["idPersonaje"])){
+    $_SESSION['error'] = "Error al borrar el personaje.";
+        header("Location: ./index.php?controlador=personajes&accion=cMostrarPersonajes");
+        exit();
+  }
+  $id = $_POST["idPersonaje"];
+  $resultado = $this->objpersonajes->mBorrarPersonaje($id);
+   if (!$resultado) {
+        $_SESSION['error'] = "Error al Borrar en la base de datos.";
+    }
+
+    header("Location: ./index.php?controlador=personajes&accion=cMostrarPersonajes");
+    exit();
+}
 }

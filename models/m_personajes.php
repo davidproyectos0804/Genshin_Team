@@ -77,4 +77,15 @@ class M_personajes
         return false;
     }
   }
+  public function mBorrarPersonaje($id){
+     $SQL = "DELETE FROM Personajes WHERE idPersonaje = ?";
+    $stmt = $this->conexion->prepare($SQL);
+    $stmt->bind_param("i", $id);
+    try {
+        $stmt->execute();
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        return false;
+    }
+  }
 }
