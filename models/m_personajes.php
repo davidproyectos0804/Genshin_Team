@@ -78,7 +78,7 @@ class M_personajes
     }
   }
   public function mBorrarPersonaje($id){
-     $SQL = "DELETE FROM Personajes WHERE idPersonaje = ?";
+    $SQL = "DELETE FROM Personajes WHERE idPersonaje = ?";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->bind_param("i", $id);
     try {
@@ -88,4 +88,25 @@ class M_personajes
         return false;
     }
   }
+ public function mEditarPersonaje($id, $nombre, $rareza, $idArma, $idElemento, $foto, $idEstadistica, $idRegion){
+    $SQL = "UPDATE Personajes 
+            SET nombre = ?, 
+                rareza = ?, 
+                idArma = ?, 
+                idElemento = ?, 
+                idEstadistica = ?, 
+                idRegion = ?, 
+                foto = ?
+            WHERE idPersonaje = ?";
+
+    $stmt = $this->conexion->prepare($SQL);
+    $stmt->bind_param("siiiiisi", $nombre, $rareza, $idArma, $idElemento, $idEstadistica, $idRegion, $foto, $id);
+
+    try {
+        $stmt->execute();
+        return true;
+    } catch (mysqli_sql_exception $e) {
+        return false;
+    }
+}
 }

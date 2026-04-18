@@ -13,7 +13,7 @@
 
 
 <body class="text-white bg-[#0a0a1a]" 
-  x-data="{ mAdd: false, mEdit: false, mDel: false, mError: false, name: '', errorMsg: '',id:null }"
+  x-data="{ mAdd: false, mEdit: false, mDel: false, mError: false, name: '', errorMsg: '', id: null, editData: {} }"
   @show-error.window="errorMsg = $event.detail.msg; mError = true">
 
   <?php include 'reusables/nav.html'; ?>
@@ -81,8 +81,11 @@
         <?= $p['estadistica'] ?>
       </p>
     <div class="flex border-t border-white/10 pt-2 justify-center gap-5">
-            <button @click="mEdit = true" class="text-slate-500 hover:text-indigo-400 transition-all transform hover:scale-110">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <button @click="mEdit = true; id = <?= $p['idPersonaje'] ?>; name = '<?= $p['nombre'] ?>'; editData = { nombre: '<?= $p['nombre'] ?>', rareza: '<?= $p['rareza'] ?>', idArma: '<?= $p['idArma'] ?>', idElemento: '<?= $p['idElemento'] ?>', idEstadistica: '<?= $p['idEstadistica'] ?>', idRegion: '<?= $p['idRegion'] ?>', foto: '<?= $p['foto'] ?>' }" class="text-slate-500 hover:text-indigo-400 transition-all transform hover:scale-110">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
             <button @click="mDel = true; name = '<?= $p['nombre'] ?>'; id = <?= $p['idPersonaje'] ?>" class="text-slate-500 hover:text-red-500 transition-all transform hover:scale-110">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -107,7 +110,6 @@
       
       <!-- ID OCULTO -->
       <input type="hidden" name="idPersonaje" :value="id">
-
       <div class="flex gap-4 mt-6">
         
         <button 
@@ -290,41 +292,153 @@
   </div>
 </div>
 
-  <div x-show="mEdit" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay">
-    <div @click.away="mEdit = false" class="modal-glass max-w-4xl w-full p-10 rounded-2xl relative">
-      <h2 class="text-4xl font-black uppercase italic mb-10 tracking-tighter text-white">Editar <span class="text-indigo-400">Personaje</span></h2>
+  <div x-show="mEdit" x-cloak @keydown.escape.window="mEdit = false"
+  class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="mEdit = false"></div>
+
+  <div class="relative modal-glass max-w-4xl w-full p-10 rounded-2xl">
+
+    <form id="formEdit" action="index.php?controlador=personajes&accion=cEditarPersonaje" method="POST" enctype="multipart/form-data">
+
+      <h2 class="text-4xl font-black uppercase italic mb-10 tracking-tighter text-white">
+        Editar <span class="text-indigo-400">Personaje</span>
+      </h2>
+
+      <!-- ID oculto -->
+      <input type="hidden" name="idPersonaje" :value="id">
+      <input type="hidden" name="foto_actual" :value="editData.foto">
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <!-- IZQUIERDA -->
         <div class="space-y-6">
           <div class="grid grid-cols-2 gap-4 text-left">
+
+            <!-- NOMBRE -->
             <div class="col-span-2">
               <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Nombre</label>
-              <input type="text" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-indigo-300" value="<?= $p['nombre'] ?>">
+              <input name="nombre" type="text" :value="editData.nombre"
+                class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-indigo-300">
             </div>
-            <div><label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Rareza</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option selected>5 Estrellas</option></select>
+
+            <!-- RAREZA -->
+            <div>
+              <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Rareza</label>
+              <select name="rareza" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"
+                :value="editData.rareza" x-effect="$el.value = editData.rareza">
+                <option value="4">4 Estrellas</option>
+                <option value="5">5 Estrellas</option>
+              </select>
             </div>
-            <div><label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Arma</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option selected>Sword</option></select>
+
+            <!-- ARMA -->
+            <div>
+              <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Arma</label>
+              <select name="arma" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"
+                x-effect="$el.value = editData.idArma">
+                <option value="1">Espada</option>
+                <option value="2">Mandoble</option>
+                <option value="3">Lanza</option>
+                <option value="4">Arco</option>
+                <option value="5">Catalizador</option>
+              </select>
             </div>
-            <div><label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Ascensión</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option selected>ATK%</option></select>
+
+            <!-- ASCENSIÓN -->
+            <div>
+              <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Ascensión</label>
+              <select name="ascension" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"
+                x-effect="$el.value = editData.idEstadistica">
+                <option value="1">ATK%</option>
+                <option value="2">HP%</option>
+                <option value="3">DEF%</option>
+                <option value="4">Crit Rate</option>
+                <option value="5">Crit DMG</option>
+                <option value="6">Recarga de Energía</option>
+                <option value="7">Maestría Elemental</option>
+                <option value="8">Bono de Curación</option>
+                <option value="13">Bono Físico</option>
+                <option value="14">Bono Pyro</option>
+                <option value="15">Bono Hydro</option>
+                <option value="16">Bono Electro</option>
+                <option value="17">Bono Cryo</option>
+                <option value="18">Bono Anemo</option>
+                <option value="19">Bono Geo</option>
+                <option value="20">Bono Dendro</option>
+              </select>
             </div>
-            <div><label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Elemento</label>
-              <select class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"><option selected>Pyro</option></select>
+
+            <!-- ELEMENTO -->
+            <div>
+              <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Elemento</label>
+              <select name="elemento" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"
+                x-effect="$el.value = editData.idElemento">
+                <option value="1">Pyro</option>
+                <option value="2">Hydro</option>
+                <option value="3">Electro</option>
+                <option value="4">Cryo</option>
+                <option value="5">Anemo</option>
+                <option value="6">Geo</option>
+                <option value="7">Dendro</option>
+              </select>
             </div>
+
+            <!-- REGIÓN -->
+            <div>
+              <label class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Región</label>
+              <select name="region" class="w-full p-3 input-cyber rounded mt-1 text-sm font-bold text-white"
+                x-effect="$el.value = editData.idRegion">
+                <option value="1">Mondstadt</option>
+                <option value="2">Liyue</option>
+                <option value="3">Inazuma</option>
+                <option value="4">Sumeru</option>
+                <option value="5">Fontaine</option>
+                <option value="6">Natlan</option>
+                <option value="7">Snezhnaya</option>
+                <option value="8">Nod-Krai</option>
+              </select>
+            </div>
+
           </div>
-          <button class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 font-black uppercase text-xs rounded mt-4 tracking-widest transition-all">Guardar Cambios</button>
+
+          <!-- BOTONES -->
+          <div class="flex gap-4 mt-4">
+            <button type="submit"
+              class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 font-black uppercase text-xs rounded tracking-widest transition-all">
+              Guardar Cambios
+            </button>
+            <button type="button" @click="mEdit = false"
+              class="w-full py-4 bg-slate-700 hover:bg-slate-600 font-black uppercase text-xs rounded tracking-widest transition-all">
+              Cancelar
+            </button>
+          </div>
         </div>
+
+        <!-- DERECHA — preview foto -->
         <div class="flex flex-col items-center justify-center border-l border-white/5 pl-10">
-          <div class="w-40 aspect-[3/4] bg-slate-900/60 rounded-lg border border-indigo-500/20 mb-6 flex items-center justify-center">
-             <span class="text-[10px] text-indigo-400/30 uppercase font-black">Carta Actual</span>
+
+          <div class="w-40 aspect-[3/4] bg-slate-900/60 rounded-lg border border-indigo-500/20 mb-6 overflow-hidden flex items-center justify-center">
+            <img :src="editData.foto" 
+              x-show="editData.foto"
+              class="w-full h-full object-cover" style="object-position: center 10%;">
+            <span x-show="!editData.foto" class="text-[10px] text-indigo-400/30 uppercase font-black">Foto Actual</span>
           </div>
-          <button class="px-8 py-2 bg-slate-800 text-slate-300 font-bold uppercase text-[10px] tracking-widest rounded-lg border border-white/5 transition-all">Cambiar Foto</button>
+
+          <input type="file" name="foto" id="fotoEditInput" class="hidden" accept="image/*">
+          <label for="fotoEditInput"
+            class="px-8 py-2 bg-slate-800 text-slate-300 font-bold uppercase text-[10px] tracking-widest rounded-lg border border-white/5 cursor-pointer hover:bg-slate-700 transition-all">
+            Cambiar Foto
+          </label>
+          <p class="text-[9px] text-slate-600 mt-2 uppercase tracking-widest">Opcional — deja vacío para mantener</p>
+
         </div>
       </div>
-      <button @click="mEdit = false" class="absolute top-6 right-6 text-slate-500 hover:text-white text-3xl font-light">&times;</button>
-    </div>
+    </form>
+
+    <button @click="mEdit = false" class="absolute top-6 right-6 text-slate-500 hover:text-white text-3xl font-light">&times;</button>
   </div>
+</div>
 
   <div x-show="mError" x-cloak class="fixed inset-0 z-[110] flex items-center justify-center p-4 modal-overlay">
   <div @click.away="mError = false" class="modal-glass max-w-sm w-full p-8 rounded-xl text-center">
