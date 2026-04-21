@@ -2,70 +2,58 @@
 session_start();
 require_once 'config/config_rutas.php';
 
-$controladorNombre = $_GET["controlador"] ?? DEFAULT_CONTROLADOR;
+/* 1. Detectar estado y parámetros */
+$isAdmin = $_SESSION['admin'] ?? false;
+$controladorNombre = strtolower($_GET["controlador"] ?? DEFAULT_CONTROLADOR);
 $accion = $_GET["accion"] ?? DEFAULT_ACCION;
 
-$rutaControlador = CONTROLADOR . 'c_' . $controladorNombre . '.php';
+/* 2. Determinar la ruta del archivo del controlador */
+// El controlador de 'auth' siempre está en la carpeta admin según tu captura
+if ($controladorNombre === 'auth' || $isAdmin) {
+    $rutaControlador = CONTROLADOR_ADMIN . 'c_' . $controladorNombre . '.php';
+} else {
+    $rutaControlador = CONTROLADOR . 'c_' . $controladorNombre . '.php';
+}
 
+/* 3. Fallback: Si el archivo no existe, cargar el default de frontend */
 if (!file_exists($rutaControlador)) {
     $controladorNombre = DEFAULT_CONTROLADOR;
     $rutaControlador = CONTROLADOR . 'c_' . $controladorNombre . '.php';
 }
 
+// Cargar el archivo físicamente
 require_once $rutaControlador;
 
-$nombreControlador = 'C_' . $controladorNombre;
+/* 4. Instanciar el controlador */
+$nombreClase = 'C_' . $controladorNombre;
+$controlador = new $nombreClase();
 
-$isJson = isset($_GET['j']);
-
-if ($isJson) {
-
-    $json = file_get_contents('php://input');
-    $datos = json_decode($json, true) ?? [];
-
-    $controlador = new $nombreControlador($datos);
-
-    if (method_exists($controlador, $accion)) {
-        $controlador->{$accion}();
-    }
-
+/* 5. Ejecutar la acción */
+$dataToView["data"] = [];
+if (method_exists($controlador, $accion)) {
+    $dataToView["data"] = $controlador->{$accion}();
 } else {
-
-    $controlador = new $nombreControlador();
-
-    if (method_exists($controlador, $accion)) {
-        $dataToView["data"] = $controlador->{$accion}();
-    }
-
-    if (isset($controlador->vista) && !empty($controlador->vista)) {
-        require_once 'views/admin/' . $controlador->vista . '.php';
-    }
-
-}
-/*
-require_once 'config/configR.php';
-
-if(!isset($_GET["controlador"])){$_GET["controlador"] = DEFAULT_CONTROLADOR;}
-if(!isset($_GET["accion"])){$_GET["accion"] = DEFAULT_ACCION;}
-
-$rutaControlador = CONTROLADOR.'C'.$_GET["controlador"].'.php'; // 'controller/cControlador.php'
-
-if(!file_exists($rutaControlador)){$rutaControlador = CONTROLADOR.'C'.DEFAULT_CONTROLADOR.'.php';} // 'controller/cPais.php'
-
-require_once $rutaControlador;
-
-$nombreControlador = 'C'.$_GET["controlador"]; //nombre de la clase controlador (Ejemplo: cPais)
-$controlador = new $nombreControlador(); //Instanciamos objeto de la clase controlador
-
-$dataToView["data"] = array();
-if(method_exists($controlador,$_GET["accion"])){
-    $dataToView["data"] = $controlador->{$_GET["accion"]}();
-} else {
-    // Manejar el error cuando el método no existe
-    die("Error: El método ".$_GET["accion"]." no existe en el controlador ".$nombreControlador);
+    // Si la acción no existe, podrías ejecutar una por defecto
+    $accionDefecto = DEFAULT_ACCION;
+    $controlador->$accionDefecto();
 }
 
+/* 6. Carga de la Vista (Aquí estaba el lío) */
 if (isset($controlador->vista) && !empty($controlador->vista)) {
-    require_once 'vistas/'.$controlador->vista.'.php';
+    
+    // Decidir carpeta de la vista
+    // 'auth' siempre usa vistas de admin. Si está logueado, también.
+    if ($controladorNombre === 'auth' || $isAdmin) {
+        $carpetaVista = 'views/admin/';
+    } else {
+        $carpetaVista = 'views/frontend/';
+    }
+
+    $rutaCompletaVista = $carpetaVista . $controlador->vista . '.php';
+
+    if (file_exists($rutaCompletaVista)) {
+        require_once $rutaCompletaVista;
+    } else {
+        echo "Error: La vista {$rutaCompletaVista} no existe.";
+    }
 }
-*/

@@ -28,12 +28,102 @@
         + Añadir Personaje
       </button>
     </div>
+    <!-- ============================================================
+     BARRA DE FILTROS
+     Pon este bloque justo ANTES del grid de personajes
+     (después del div que tiene el h1 y el botón de añadir)
+    ============================================================ -->
+
+    <div class="flex flex-wrap gap-3 mb-8 items-end">
+
+      <!-- BÚSQUEDA POR NOMBRE -->
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Nombre</label>
+        <input
+          id="filtroNombre"
+          type="text"
+          placeholder="Buscar..."
+          class="w-44 p-2 input-cyber rounded text-xs font-bold text-white placeholder-slate-600"
+        >
+      </div>
+
+      <!-- RAREZA -->
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Rareza</label>
+        <select id="filtroRareza" class="p-2 input-cyber rounded text-xs font-bold text-white">
+          <option value="">Todas</option>
+          <option value="4">★★★★</option>
+          <option value="5">★★★★★</option>
+        </select>
+      </div>
+
+      <!-- ELEMENTO -->
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Elemento</label>
+        <select id="filtroElemento" class="p-2 input-cyber rounded text-xs font-bold text-white">
+          <option value="">Todos</option>
+          <option value="1">Pyro</option>
+          <option value="2">Hydro</option>
+          <option value="3">Electro</option>
+          <option value="4">Cryo</option>
+          <option value="5">Anemo</option>
+          <option value="6">Geo</option>
+          <option value="7">Dendro</option>
+        </select>
+      </div>
+
+      <!-- ARMA -->
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Arma</label>
+        <select id="filtroArma" class="p-2 input-cyber rounded text-xs font-bold text-white">
+          <option value="">Todas</option>
+          <option value="1">Espada</option>
+          <option value="2">Mandoble</option>
+          <option value="3">Lanza</option>
+          <option value="4">Arco</option>
+          <option value="5">Catalizador</option>
+        </select>
+      </div>
+
+      <!-- REGIÓN -->
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-black uppercase text-slate-500 tracking-wider">Región</label>
+        <select id="filtroRegion" class="p-2 input-cyber rounded text-xs font-bold text-white">
+          <option value="">Todas</option>
+          <option value="1">Mondstadt</option>
+          <option value="2">Liyue</option>
+          <option value="3">Inazuma</option>
+          <option value="4">Sumeru</option>
+          <option value="5">Fontaine</option>
+          <option value="6">Natlan</option>
+          <option value="7">Snezhnaya</option>
+          <option value="8">Nod-Krai</option>
+        </select>
+      </div>
+
+      <!-- BOTÓN RESET -->
+      <button
+        onclick="resetFiltros()"
+        class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-black uppercase text-[10px] tracking-widest rounded border border-white/5 transition-all self-end">
+        Limpiar
+      </button>
+
+      <!-- CONTADOR -->
+      <span id="filtroContador" class="self-end text-[10px] text-slate-600 uppercase tracking-widest font-bold ml-auto"></span>
+
+    </div>
 
     <!-- GRID DE PERSONAJES -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-6 pb-20">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9 gap-6 pb-20" id="gridPersonajes">
       <?php foreach ($dataToView["data"] as $p): ?>
 
-        <div class="glass-card rounded-lg overflow-hidden flex flex-col group h-fit">
+        <div class="glass-card rounded-lg overflow-hidden flex flex-col group h-fit"
+      data-nombre="<?= strtolower(htmlspecialchars($p['nombre'], ENT_QUOTES)) ?>"
+      data-rareza="<?= $p['rareza'] ?>"
+      data-elemento="<?= $p['idElemento'] ?>"
+      data-arma="<?= $p['idArma'] ?>"
+      data-region="<?= $p['idRegion'] ?>"
+    >
           <div class="relative aspect-[3/4] bg-slate-900/60 overflow-hidden">
             <img src="<?= $p['foto'] ?>" class="w-full h-full object-cover" style="object-position: center 10%;">
           </div>

@@ -7,7 +7,8 @@
     define('JS_MODELO','public/assets/js/model/');
     define('CONFIG','config/');
     define('MODELO','models/');
-    define('CONTROLADOR','controllers/admin/');
+    define('CONTROLADOR','controllers/frontend/');
+    define('CONTROLADOR_ADMIN','controllers/admin/');
 
     /*-- Parámetros por defecto--*/
     define('DEFAULT_CONTROLADOR','menuPrincipal'); //Controlador por defecto, el que llama a minijuego
