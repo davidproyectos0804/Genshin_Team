@@ -83,10 +83,10 @@
         </select>
       </div>
 
-      <button onclick="resetFiltros()"
-        class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-black uppercase text-[10px] tracking-widest rounded border border-white/5 transition-all self-end">
-        Limpiar
-      </button>
+      <button id="btnLimpiar"
+  class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-black uppercase text-[10px] tracking-widest rounded border border-white/5 transition-all self-end">
+  Limpiar
+</button>
 
       <span id="filtroContador" class="self-end text-[10px] text-slate-600 uppercase tracking-widest font-bold ml-auto"></span>
     </div>
@@ -137,7 +137,6 @@
 
   <?php include 'reusables/fotter.html'; ?>
 
-  <script src="../../public/assets/js/personajesC.js"></script>
-  <script type="module" src="../../public/assets/js/personajesPage.js"></script>
+ <script type="module" src="../../public/assets/js/personajesPage.js"></script>
 </body>
 </html>

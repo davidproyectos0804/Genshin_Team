@@ -28,12 +28,6 @@
         + Añadir Personaje
       </button>
     </div>
-    <!-- ============================================================
-     BARRA DE FILTROS
-     Pon este bloque justo ANTES del grid de personajes
-     (después del div que tiene el h1 y el botón de añadir)
-    ============================================================ -->
-
     <div class="flex flex-wrap gap-3 mb-8 items-end">
 
       <!-- BÚSQUEDA POR NOMBRE -->
