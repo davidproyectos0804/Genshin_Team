@@ -138,5 +138,6 @@
   <?php include 'reusables/fotter.html'; ?>
 
   <script src="../../public/assets/js/personajesC.js"></script>
+  <script type="module" src="../../public/assets/js/personajesPage.js"></script>
 </body>
 </html>

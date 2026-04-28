@@ -53,7 +53,7 @@
       </a>
 
       <!-- TeamBuilder (DESTACADO) -->
-      <a href="#"
+      <a href="index.php?controlador=personajes&accion=cMostrarTeambuilder"
          class="group p-10 bg-black/60 border border-indigo-500/20 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-900/20 scale-105">
 
         <h3 class="text-3xl font-black mb-2 uppercase text-indigo-400 group-hover:text-indigo-300">

@@ -19,4 +19,14 @@ public function cMostrarPersonajes()
       return $resultado;
     }
   }
+  public function cMostrarTeambuilder()
+{
+    $this->vista = 'teambuilder';
+
+    $resultado = $this->objpersonajes->mMostrarPersonajes();
+
+    if (is_array($resultado)) {
+        return $resultado;
+    }
+}
 }

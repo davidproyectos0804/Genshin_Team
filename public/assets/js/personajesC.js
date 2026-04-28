@@ -1,61 +1,49 @@
-// ============================================================
-//  personajes_cliente.js — Solo Filtrado
-// ============================================================
+export function initFiltros({ filtros, grid, contador }) {
 
-// Recoge todos los controles de filtro
-const filtros = {
-  nombre:   document.getElementById('filtroNombre'),
-  rareza:   document.getElementById('filtroRareza'),
-  elemento: document.getElementById('filtroElemento'),
-  arma:     document.getElementById('filtroArma'),
-  region:   document.getElementById('filtroRegion'),
-};
-const contador = document.getElementById('filtroContador');
+  function aplicarFiltros() {
+    const nombre = filtros.nombre.value.toLowerCase().trim();
+    const rareza = filtros.rareza.value;
+    const elemento = filtros.elemento.value;
+    const arma = filtros.arma.value;
+    const region = filtros.region.value;
 
-// Escucha cambios en cualquier filtro
-Object.values(filtros).forEach(el => {
-  if (el) { // Verificamos que el filtro existe en el HTML
-    const evento = el.tagName === 'INPUT' ? 'input' : 'change';
-    el.addEventListener(evento, aplicarFiltros);
-  }
-});
+    const cards = grid.querySelectorAll('.glass-card');
+    let visibles = 0;
 
-function aplicarFiltros() {
-  const nombre   = filtros.nombre.value.toLowerCase().trim();
-  const rareza   = filtros.rareza.value;
-  const elemento = filtros.elemento.value;
-  const arma     = filtros.arma.value;
-  const region   = filtros.region.value;
+    cards.forEach(card => {
+      const ok =
+        (!nombre || card.dataset.nombre.includes(nombre)) &&
+        (!rareza || card.dataset.rareza === rareza) &&
+        (!elemento || card.dataset.elemento === elemento) &&
+        (!arma || card.dataset.arma === arma) &&
+        (!region || card.dataset.region === region);
 
-  // Todas las cards del grid
-  const cards = document.querySelectorAll('#gridPersonajes .glass-card');
-  let visibles = 0;
+      card.style.display = ok ? '' : 'none';
+      if (ok) visibles++;
+    });
 
-  cards.forEach(card => {
-    const coincide =
-      (!nombre   || card.dataset.nombre.includes(nombre))   &&
-      (!rareza   || card.dataset.rareza   === rareza)        &&
-      (!elemento || card.dataset.elemento === elemento)      &&
-      (!arma     || card.dataset.arma     === arma)          &&
-      (!region   || card.dataset.region   === region);
-
-    card.style.display = coincide ? '' : 'none';
-    if (coincide) visibles++;
-  });
-
-  // Actualiza el contador
-  if (contador) {
-    contador.textContent = visibles === cards.length
-      ? ''
-      : `${visibles} de ${cards.length}`;
-  }
-}
-
-function resetFiltros() {
-  Object.values(filtros).forEach(el => {
-    if (el) {
-      el.tagName === 'INPUT' ? (el.value = '') : (el.selectedIndex = 0);
+    if (contador) {
+      contador.textContent =
+        visibles === cards.length ? '' : `${visibles} de ${cards.length}`;
     }
+  }
+
+  function resetFiltros() {
+    Object.values(filtros).forEach(el => {
+      el.tagName === 'INPUT'
+        ? (el.value = '')
+        : (el.selectedIndex = 0);
+    });
+
+    aplicarFiltros();
+  }
+
+  Object.values(filtros).forEach(el => {
+    el.addEventListener(
+      el.tagName === 'INPUT' ? 'input' : 'change',
+      aplicarFiltros
+    );
   });
-  aplicarFiltros();
+
+  return { aplicarFiltros, resetFiltros };
 }
