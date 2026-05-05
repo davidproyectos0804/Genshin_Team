@@ -172,3 +172,7 @@ function resetFiltros() {
   });
   aplicarFiltros();
 }
+function mostrarError(mensaje) {
+  document.getElementById('errorMsg').textContent = mensaje;
+  abrirModal('modalError');
+}
