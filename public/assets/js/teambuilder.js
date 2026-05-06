@@ -75,13 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
           Eliminar
         </button>` : ''}
       </div>
-      <div class="grid grid-cols-4 gap-6 w-full max-w-3xl">
+      <div class="grid grid-cols-4 gap-6 w-full max-w-4xl">
         ${[0,1,2,3].map(i => `
          <div class="slot group relative flex items-center justify-center
             cursor-pointer rounded-xl overflow-hidden text-slate-700
             bg-slate-800/40 border border-slate-700/40
             hover:border-indigo-500/40 hover:bg-slate-800/80
-            transition-all duration-300 min-h-[200px]"
+            transition-all duration-300 min-h-[350px]"
      data-equipo-id="${id}" data-slot="${i}">
   <div class="flex flex-col items-center gap-2 pointer-events-none">
     <span class="text-3xl font-thin opacity-30 group-hover:opacity-60 transition-opacity">+</span>
