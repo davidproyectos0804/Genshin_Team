@@ -26,7 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter(Boolean);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
   }
+  function renumerarEquipos() {
+  const wrappers = document.querySelectorAll('.equipo-wrapper');
 
+  wrappers.forEach((wrapper, index) => {
+    const titulo = wrapper.querySelector('.titulo-equipo');
+    if (titulo) titulo.textContent = `Equipo ${index + 1}`;
+
+    const btnEliminar = wrapper.querySelector('.btn-eliminar-equipo');
+    if (btnEliminar) {
+      btnEliminar.style.display = wrappers.length > 1 ? 'block' : 'none';
+    }
+  });
+}
   function cargarDeStorage() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) { crearEquipo(); return; }
@@ -52,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     wrapper.className = 'equipo-wrapper';
     wrapper.innerHTML = `
       <div class="flex items-center gap-3 mb-4">
-        <span class="text-[10px] font-black uppercase tracking-[4px] text-slate-600">
-          Equipo ${id + 1}
+        <span class="titulo-equipo text-[10px] font-black uppercase tracking-[4px] text-slate-600">
+          Equipo
         </span>
         <div class="flex-1 h-px bg-slate-800"></div>
         ${!esElPrimero && id > 0 ? `
@@ -90,19 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     wrapper.querySelector('.btn-eliminar-equipo')
-      ?.addEventListener('click', () => {
+    ?.addEventListener('click', () => {
         equipos[id] = null;
         wrapper.remove();
+        renumerarEquipos();
         guardarEnStorage();
-      });
+    });
 
     equiposContainer.appendChild(wrapper);
-
+    renumerarEquipos();
     if (slotsData) {
       slotsData.forEach((pj, i) => {
         if (pj) pintarSlot(id, i, pj);
       });
-    }
+    } 
   }
 
   // ── Pintar slot ───────────────────────────────────────────

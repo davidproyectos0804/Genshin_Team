@@ -99,6 +99,7 @@
               <option value="6">Natlan</option>
               <option value="7">Snezhnaya</option>
               <option value="8">Nod-Krai</option>
+              <option value="9">Desconocido</option>
             </select>
           </div>
           <button id="resetBtn"
@@ -109,7 +110,7 @@
         </div>
 
         <!-- GRID -->
-        <div id="selectorGrid" class="grid grid-cols-6 gap-3 overflow-y-auto flex-1">
+        <div id="selectorGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 overflow-y-auto flex-1 auto-rows-max">
           <?php foreach ($dataToView["data"] as $p): ?>
             <div class="glass-card cursor-pointer rounded-lg overflow-hidden flex flex-col group h-fit transition-transform hover:scale-[1.02]"
               data-nombre="<?= strtolower(htmlspecialchars($p['nombre'], ENT_QUOTES)) ?>"

@@ -18,11 +18,12 @@ class C_auth
 
     public function login()
     {
-        $this->vista = 'login';
+        $this->vista = null;
+        header('Content-Type: application/json');
 
         if (empty($_POST['usuario']) || empty($_POST['password'])) {
-            $_SESSION['error'] = "Rellena todos los campos.";
-            header("Location: ./index.php?controlador=auth&accion=loginForm");
+            http_response_code(400);
+            echo json_encode(['error' => 'Rellena todos los campos.']);
             exit();
         }
 
@@ -31,22 +32,18 @@ class C_auth
 
         $resultado = $this->objauth->mLogin($usuario);
 
-        if (!$resultado) {
-            $_SESSION['error'] = "Usuario incorrecto.";
-            header("Location: ./index.php?controlador=auth&accion=loginForm");
-            exit();
+       if (!$resultado || !password_verify($password, $resultado['password'])) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Credenciales incorrectas.']);
+        exit();
         }
 
-       if ($password !== $resultado['password']) {
-            $_SESSION['error'] = "Contraseña incorrecta.";
-            header("Location: ./index.php?controlador=auth&accion=loginForm");
-            exit();
-        }
-
-        $_SESSION['admin'] = true;
+        $_SESSION['admin']   = true;
         $_SESSION['usuario'] = $resultado['nombre'];
-        session_write_close(); // Forza el guardado
-        header("Location: index.php");
+
+        session_write_close();
+
+        echo json_encode(['success' => true]);
         exit();
     }
 

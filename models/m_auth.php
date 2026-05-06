@@ -18,7 +18,7 @@ class M_auth
 {
     $SQL = "SELECT idUsuario, nombre, password 
             FROM usuarios 
-            WHERE nombre = ?";
+            WHERE BINARY nombre = ?";
 
     $stmt = $this->conexion->prepare($SQL);
     $stmt->bind_param("s", $usuario);
