@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Genshin TeamBuilder | Abyss Overdrive</title>
-  <link rel="stylesheet" href="../../public/assets/css/menu_principal.css">
+  <link rel="stylesheet" href="../../public/assets/css/menu_principal_admin.css">
 </head>
-<body class="text-white flex flex-col">
+<body class="text-white flex flex-col ">
 
   <?php include 'reusables/nav.html'; ?>
 
@@ -33,7 +33,7 @@
         <p class="text-slate-500 text-[10px] font-bold tracking-[2px] uppercase">Base de Datos • Filtros</p>
       </a>
 
-      <a href="#" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-purple-500/40 hover:bg-purple-900/10">
+      <a href="index.php?controlador=banners&accion=cMostrarBanners" class="flex-1 group p-10 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-purple-500/40 hover:bg-purple-900/10">
         <h3 class="text-3xl font-black mb-2 uppercase group-hover:text-purple-400">Banners</h3>
         <p class="text-slate-500 text-[10px] font-bold tracking-[2px] uppercase">Gachapón • Rotaciones</p>
       </a>

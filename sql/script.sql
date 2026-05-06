@@ -5,16 +5,12 @@ CREATE DATABASE gestion_genshin;
 USE gestion_genshin;
 
 -- ======================================
--- TABLA USUARIOS
+-- TABLAS PRINCIPALES
 -- ======================================
 CREATE TABLE Usuarios (
     idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
-
--- ======================================
--- TABLAS PRINCIPALES
--- ======================================
 
 CREATE TABLE Elementos (
     idElemento INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,13 +30,6 @@ CREATE TABLE EstadisticasAscension (
     foto VARCHAR(255)
 );
 
-CREATE TABLE Banners (
-    idBanner INT AUTO_INCREMENT PRIMARY KEY,
-    version VARCHAR(20) NOT NULL,
-    fecha_inicio DATE,
-    fecha_fin DATE
-);
-
 CREATE TABLE Personajes (
     idPersonaje INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -49,39 +38,31 @@ CREATE TABLE Personajes (
     idElemento INT NOT NULL,
     idArma INT NOT NULL,
     idEstadistica INT NOT NULL,
-
     FOREIGN KEY (idElemento) REFERENCES Elementos(idElemento),
     FOREIGN KEY (idArma) REFERENCES Armas(idArma),
     FOREIGN KEY (idEstadistica) REFERENCES EstadisticasAscension(idEstadistica)
 );
 
-CREATE TABLE Equipos (
-    idEquipo INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    idUsuario INT,
-    FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
+CREATE TABLE Versiones (
+    idVersion INT AUTO_INCREMENT PRIMARY KEY,
+    numero VARCHAR(10) NOT NULL UNIQUE
 );
 
--- ======================================
--- RELACIONES M:N
--- ======================================
-
--- Equipo ↔ Personajes (con posición)
-CREATE TABLE Equipo_Personaje (
-    idEquipo INT,
-    idPersonaje INT,
-    posicion INT,
-    PRIMARY KEY (idEquipo, idPersonaje),
-    FOREIGN KEY (idEquipo) REFERENCES Equipos(idEquipo),
-    FOREIGN KEY (idPersonaje) REFERENCES Personajes(idPersonaje),
-    UNIQUE (idEquipo, posicion)
+CREATE TABLE Banners (
+    idBanner INT AUTO_INCREMENT PRIMARY KEY,
+    idVersion INT NOT NULL,
+    numero_banner TINYINT NOT NULL,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    activo BOOLEAN DEFAULT FALSE,
+    UNIQUE (idVersion, numero_banner),
+    FOREIGN KEY (idVersion) REFERENCES Versiones(idVersion)
 );
 
--- Banner ↔ Personajes
-CREATE TABLE Banner_Personaje (
-    idBanner INT,
-    idPersonaje INT,
+CREATE TABLE BannerPersonajes (
+    idBanner INT NOT NULL,
+    idPersonaje INT NOT NULL,
     PRIMARY KEY (idBanner, idPersonaje),
-    FOREIGN KEY (idBanner) REFERENCES Banners(idBanner),
+    FOREIGN KEY (idBanner) REFERENCES Banners(idBanner) ON DELETE CASCADE,
     FOREIGN KEY (idPersonaje) REFERENCES Personajes(idPersonaje)
 );
