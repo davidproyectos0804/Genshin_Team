@@ -48,7 +48,7 @@
         </h3>
 
         <p class="text-slate-500 text-[10px] font-bold tracking-[2px] uppercase">
-          Stats • Builds
+           Base de Datos • Filtros 
         </p>
       </a>
 
@@ -61,7 +61,7 @@
         </h3>
 
         <p class="text-slate-400 text-[10px] font-bold tracking-[2px] uppercase">
-          Crea • Optimiza • Comparte
+          Crea • Optimiza
         </p>
       </a>
 
@@ -74,7 +74,7 @@
         </h3>
 
         <p class="text-slate-500 text-[10px] font-bold tracking-[2px] uppercase">
-          Rotaciones • Probabilidades
+          Gachapón • Rotaciones
         </p>
       </a>
 

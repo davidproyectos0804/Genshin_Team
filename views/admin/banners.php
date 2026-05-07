@@ -121,7 +121,7 @@
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="cerrarModal('modalAdd')"></div>
     <div class="relative modal-glass max-w-2xl w-full p-10 rounded-2xl">
       <button onclick="cerrarModal('modalAdd')" class="absolute top-6 right-6 text-slate-500 hover:text-white text-3xl">&times;</button>
-      <form method="POST" action="./index.php?controlador=banners&accion=cAnadirBanner">
+      <form id="formAdd" method="POST">
         <h2 class="text-4xl font-black uppercase italic mb-10 tracking-tighter text-white">
           Nuevo <span class="text-indigo-400">Banner</span>
         </h2>
@@ -195,7 +195,7 @@
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="cerrarModal('modalEdit')"></div>
     <div class="relative modal-glass max-w-2xl w-full p-10 rounded-2xl">
       <button onclick="cerrarModal('modalEdit')" class="absolute top-6 right-6 text-slate-500 hover:text-white text-3xl">&times;</button>
-      <form method="POST" action="./index.php?controlador=banners&accion=cModificarBanner">
+      <form id="formEdit" method="POST">
         <h2 class="text-4xl font-black uppercase italic mb-10 tracking-tighter text-white">
           Editar <span class="text-indigo-400">Banner</span>
         </h2>
@@ -268,10 +268,8 @@
       <h2 class="text-xl font-black uppercase italic mb-4 text-white">
         ¿Borrar banner <span id="delInfo" class="text-red-500"></span>?
       </h2>
-      <form id="formDel" method="GET">
-        <input type="hidden" id="delId" name="id" value="">
-        <input type="hidden" name="controlador" value="banners">
-        <input type="hidden" name="accion" value="cBorrarBanner">
+      <form id="formDel">
+        <input type="hidden" id="delId" name="idBanner" value="">
         <div class="flex gap-4 mt-6">
           <button type="button" onclick="cerrarModal('modalDel')"
             class="flex-1 py-3 bg-slate-700 hover:bg-slate-600 rounded font-black uppercase text-xs tracking-widest transition-all">
@@ -302,50 +300,9 @@
 
   <?php include 'reusables/fotter.html'; ?>
 
-  <script>
-    function abrirModal(id) {
-      document.getElementById(id).classList.remove('hidden');
-    }
-    function cerrarModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-    function cerrarModalError() {
-      cerrarModal('modalError');
-      // limpia el param error de la URL sin recargar
-      const url = new URL(window.location.href);
-      url.searchParams.delete('error');
-      window.history.replaceState({}, '', url);
-    }
-
-    function abrirModalBorrar(btn) {
-      document.getElementById('delId').value = btn.dataset.id;
-      document.getElementById('delInfo').textContent = 'v' + btn.dataset.version + ' · Banner ' + btn.dataset.numero;
-      abrirModal('modalDel');
-    }
-
-    function abrirModalEditar(btn) {
-      document.getElementById('editIdBanner').value  = btn.dataset.id;
-      document.getElementById('editVersion').value   = btn.dataset.version;
-      document.getElementById('editNumero').value    = btn.dataset.numero;
-      document.getElementById('editInicio').value    = btn.dataset.inicio;
-      document.getElementById('editFin').value       = btn.dataset.fin;
-      document.getElementById('editActivo').checked  = btn.dataset.activo == '1';
-
-      const personajes = JSON.parse(btn.dataset.personajes);
-      const selects5 = [document.getElementById('editPersonaje5_0'), document.getElementById('editPersonaje5_1')];
-      const selects4 = [document.getElementById('editPersonaje4_0'), document.getElementById('editPersonaje4_1'), document.getElementById('editPersonaje4_2')];
-      selects5.forEach((s, i) => { if (personajes[i]) s.value = personajes[i]; });
-      selects4.forEach((s, i) => { if (personajes[i + 2]) s.value = personajes[i + 2]; });
-
-      abrirModal('modalEdit');
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('error')) {
-      document.getElementById('errorMsg').textContent = decodeURIComponent(params.get('error'));
-      abrirModal('modalError');
-    }
-  </script>
+  <script src="../../public/assets/js/banners.js"></script>
+  <script src="../../public/assets/js/models/bannersModel.js"></script>
+  <script src="../../public/assets/js/controllers/bannersController.js"></script>
 
 </body>
 </html>

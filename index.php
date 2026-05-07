@@ -29,13 +29,22 @@ $nombreClase = 'C_' . $controladorNombre;
 $controlador = new $nombreClase();
 
 /* 5. Ejecutar la acción */
-$dataToView["data"] = [];
+$dataToView = ["data" => []];
+
 if (method_exists($controlador, $accion)) {
-    $dataToView["data"] = $controlador->{$accion}();
+    $resultado = $controlador->{$accion}();
+
+    if ($resultado !== null) {
+        $dataToView["data"] = $resultado;
+    }
 } else {
-    // Si la acción no existe, podrías ejecutar una por defecto
     $accionDefecto = DEFAULT_ACCION;
-    $controlador->$accionDefecto();
+
+    $resultado = $controlador->$accionDefecto();
+
+    if ($resultado !== null) {
+        $dataToView["data"] = $resultado;
+    }
 }
 
 /* 6. Carga de la Vista (Aquí estaba el lío) */
