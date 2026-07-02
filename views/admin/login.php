@@ -23,6 +23,7 @@
             box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
         }
     </style>
+    <link rel="icon" type="image/png" href="../../public/assets/img/favicon/favicon-16x16.png">
 </head>
 
 <body class="text-white bg-[#0a0a1a] min-h-screen flex flex-col justify-center items-center p-6">

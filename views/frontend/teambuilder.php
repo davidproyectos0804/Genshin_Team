@@ -6,6 +6,7 @@
   <title>Team Builder | Abyss Overdrive</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../../public/assets/css/personajes_principal.css">
+  <link rel="icon" type="image/png" href="../../public/assets/img/favicon/favicon-16x16.png">
   <script type="module" src="../../public/assets/js/teambuilder.js" defer></script>
 </head>
 

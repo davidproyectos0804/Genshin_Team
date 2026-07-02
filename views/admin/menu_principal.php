@@ -6,6 +6,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Genshin TeamBuilder | Abyss Overdrive</title>
   <link rel="stylesheet" href="../../public/assets/css/menu_principal_admin.css">
+  <link rel="icon" type="image/png" href="../../public/assets/img/favicon/favicon-16x16.png">
 </head>
 <body class="text-white flex flex-col ">
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Banners | Genshin Teambuilder</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/png" href="../../public/assets/img/armas/catalizador.webp">
+  <link rel="icon" type="image/png" href="../../public/assets/img/favicon/favicon-16x16.png">
   <link rel="stylesheet" href="../../public/assets/css/personajes_principal.css">
 </head>
 

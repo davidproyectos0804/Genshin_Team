@@ -9,6 +9,7 @@ class M_banners
     if ($this->conexion->connect_error) {
       die("Conexión fallida: " . $this->conexion->connect_error);
     }
+    $this->conexion->set_charset("utf8mb4");
   }
   public function mMostrarBanners()
 {
@@ -24,10 +25,10 @@ class M_banners
         p.nombre AS personaje,
         p.foto AS foto_personaje,
         p.rareza
-        FROM Banners b
-        JOIN Versiones v ON b.idVersion = v.idVersion
-        JOIN BannerPersonajes bp ON b.idBanner = bp.idBanner
-        JOIN Personajes p ON bp.idPersonaje = p.idPersonaje
+        FROM banners b
+        JOIN versiones v ON b.idVersion = v.idVersion
+        JOIN bannerpersonajes bp ON b.idBanner = bp.idBanner
+        JOIN personajes p ON bp.idPersonaje = p.idPersonaje
         ORDER BY v.numero DESC, b.numero_banner ASC, p.rareza DESC";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->execute();
@@ -64,7 +65,7 @@ class M_banners
   $this->conexion->begin_transaction();
   try {
     // Insertar el banner
-    $SQL = "INSERT INTO Banners (idVersion, numero_banner, fecha_inicio, fecha_fin, activo) 
+    $SQL = "INSERT INTO banners (idVersion, numero_banner, fecha_inicio, fecha_fin, activo) 
             VALUES (?, ?, ?, ?, ?)";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->bind_param("iissi", $idVersion, $numero_banner, $fecha_inicio, $fecha_fin, $activo);
@@ -72,7 +73,7 @@ class M_banners
     $idBanner = $this->conexion->insert_id;
 
     // Insertar los 5 personajes
-    $SQL2 = "INSERT INTO BannerPersonajes (idBanner, idPersonaje) VALUES (?, ?)";
+    $SQL2 = "INSERT INTO bannerpersonajes (idBanner, idPersonaje) VALUES (?, ?)";
     $stmt2 = $this->conexion->prepare($SQL2);
     foreach ($personajes as $idPersonaje) {
       $stmt2->bind_param("ii", $idBanner, $idPersonaje);
@@ -89,7 +90,7 @@ class M_banners
 
   public function mBorrarBanner($id)
   {
-    $SQL = "DELETE FROM Banners WHERE idBanner = ?";
+    $SQL = "DELETE FROM banners WHERE idBanner = ?";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->bind_param("i", $id);
     try {
@@ -105,7 +106,7 @@ class M_banners
   $this->conexion->begin_transaction();
   try {
     // Actualizar el banner
-    $SQL = "UPDATE Banners 
+    $SQL = "UPDATE banners 
             SET idVersion = ?, 
                 numero_banner = ?, 
                 fecha_inicio = ?, 
@@ -117,12 +118,12 @@ class M_banners
     $stmt->execute();
 
     // Borrar personajes actuales y reinsertar los nuevos
-    $SQL2 = "DELETE FROM BannerPersonajes WHERE idBanner = ?";
+    $SQL2 = "DELETE FROM bannerpersonajes WHERE idBanner = ?";
     $stmt2 = $this->conexion->prepare($SQL2);
     $stmt2->bind_param("i", $id);
     $stmt2->execute();
 
-    $SQL3 = "INSERT INTO BannerPersonajes (idBanner, idPersonaje) VALUES (?, ?)";
+    $SQL3 = "INSERT INTO bannerpersonajes (idBanner, idPersonaje) VALUES (?, ?)";
     $stmt3 = $this->conexion->prepare($SQL3);
     foreach ($personajes as $idPersonaje) {
       $stmt3->bind_param("ii", $id, $idPersonaje);
@@ -138,7 +139,7 @@ class M_banners
 }
 public function mMostrarVersiones()
 {
-    $SQL = "SELECT idVersion, numero FROM Versiones ORDER BY numero DESC";
+    $SQL = "SELECT idVersion, numero FROM versiones ORDER BY numero DESC";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->execute();
     $datos = $stmt->get_result();
@@ -154,7 +155,7 @@ public function mMostrarVersiones()
 
 public function mMostrarPersonajes()
 {
-    $SQL = "SELECT idPersonaje, nombre, foto, rareza FROM Personajes ORDER BY rareza DESC, nombre ASC";
+    $SQL = "SELECT idPersonaje, nombre, foto, rareza FROM personajes ORDER BY rareza DESC, nombre ASC";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->execute();
     $datos = $stmt->get_result();
@@ -180,8 +181,8 @@ public function mObtenerBanner($id)
         b.activo,
         b.idVersion,
         GROUP_CONCAT(bp.idPersonaje) AS personajes
-        FROM Banners b
-        JOIN BannerPersonajes bp ON b.idBanner = bp.idBanner
+        FROM banners b
+        JOIN bannerpersonajes bp ON b.idBanner = bp.idBanner
         WHERE b.idBanner = ?
         GROUP BY b.idBanner";
     $stmt = $this->conexion->prepare($SQL);

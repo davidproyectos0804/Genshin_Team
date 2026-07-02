@@ -9,6 +9,7 @@ class M_personajes
     if ($this->conexion->connect_error) {
       die("Conexión fallida: " . $this->conexion->connect_error);
     }
+    $this->conexion->set_charset("utf8mb4");
   }
 
   public function mMostrarPersonajes()
@@ -30,11 +31,11 @@ class M_personajes
     r.idRegion,
     r.nombre AS region,
     r.foto AS foto_region 
-    FROM Personajes p
-    JOIN Elementos e ON p.idElemento = e.idElemento
-    JOIN Armas a ON p.idArma = a.idArma
-    JOIN EstadisticasAscension s ON p.idEstadistica = s.idEstadistica
-    JOIN Regiones r ON p.idRegion = r.idRegion
+    FROM personajes p
+    JOIN elementos e ON p.idElemento = e.idElemento
+    JOIN armas a ON p.idArma = a.idArma
+    JOIN estadisticasascension s ON p.idEstadistica = s.idEstadistica
+    JOIN regiones r ON p.idRegion = r.idRegion
     ORDER BY p.nombre ASC";
 
     $stmt = $this->conexion->prepare($SQL);
@@ -66,7 +67,7 @@ class M_personajes
 
   public function mAnadirPersonaje($nombre, $rareza, $idArma, $idElemento, $foto, $idEstadistica, $idRegion)
   {
-    $SQL = "INSERT INTO Personajes (nombre, rareza, idArma, idElemento, idEstadistica, idRegion, foto) 
+    $SQL = "INSERT INTO personajes (nombre, rareza, idArma, idElemento, idEstadistica, idRegion, foto) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->bind_param("siiiiis", $nombre, $rareza, $idArma, $idElemento, $idEstadistica, $idRegion, $foto);
@@ -78,7 +79,7 @@ class M_personajes
     }
   }
   public function mBorrarPersonaje($id){
-    $SQL = "DELETE FROM Personajes WHERE idPersonaje = ?";
+    $SQL = "DELETE FROM personajes WHERE idPersonaje = ?";
     $stmt = $this->conexion->prepare($SQL);
     $stmt->bind_param("i", $id);
     try {
@@ -89,7 +90,7 @@ class M_personajes
     }
   }
  public function mEditarPersonaje($id, $nombre, $rareza, $idArma, $idElemento, $foto, $idEstadistica, $idRegion){
-    $SQL = "UPDATE Personajes 
+    $SQL = "UPDATE personajes 
             SET nombre = ?, 
                 rareza = ?, 
                 idArma = ?, 

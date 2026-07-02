@@ -12,6 +12,7 @@ class M_auth
         if ($this->conexion->connect_error) {
             die("Conexión fallida: " . $this->conexion->connect_error);
         }
+        $this->conexion->set_charset("utf8mb4");
     }
 
     public function mLogin($usuario)

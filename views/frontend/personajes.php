@@ -6,6 +6,7 @@
   <title>Personajes | Abyss Overdrive</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../../public/assets/css/personajes_principal.css">
+  <link rel="icon" type="image/png" href="../../public/assets/img/favicon/favicon-16x16.png">
 </head>
 
 <body class="text-white bg-[#0a0a1a]">

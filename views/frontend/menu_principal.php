@@ -6,6 +6,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Genshin TeamBuilder | Inicio</title>
   <link rel="stylesheet" href="../../public/assets/css/menu_principal.css">
+  <link rel="icon" type="image/png" href="../../public/assets/img/favicon/favicon-16x16.png">
 </head>
 
 <body class="text-white flex flex-col">
@@ -66,7 +67,7 @@
       </a>
 
       <!-- Banners -->
-      <a href="#"
+      <a href="index.php?controlador=banners&accion=cMostrarBanners"
          class="group p-8 bg-black/50 border border-white/5 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:border-purple-500/40 hover:bg-purple-900/10">
 
         <h3 class="text-2xl font-black mb-2 uppercase group-hover:text-purple-400">
